@@ -1,4 +1,4 @@
-package web.catolica.n3.app.controller;
+package web.catolica.n3.app.controller.api;
 
 import jakarta.validation.Valid;
 import java.util.List;

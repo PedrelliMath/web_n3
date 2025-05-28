@@ -1,4 +1,4 @@
-package web.catolica.n3.app.controller;
+package web.catolica.n3.app.controller.api;
 
 import java.util.List;
 import java.util.UUID;

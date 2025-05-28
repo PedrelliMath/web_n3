@@ -1,0 +1,118 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <title th:text="${id} != null ? 'Editar Empresa' : 'Nova Empresa'">
+            Formulário de Empresa
+        </title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+
+    <body class="container mx-auto p-6">
+        <h1
+            class="text-2xl font-bold mb-6"
+            th:text="${id} != null ? 'Editar Empresa' : 'Nova Empresa'"
+        >
+            Formulário de Empresa
+        </h1>
+
+        <form
+            th:action="${id} != null ? @{'/empresas/atualizar/' + ${id}} : @{/empresas/salvar}"
+            th:object="${empresaDtoRequest}"
+            method="post"
+            class="space-y-4 max-w-md"
+        >
+            <div>
+                <label
+                    for="cnpj"
+                    class="block text-sm font-medium text-gray-700"
+                    >CNPJ</label
+                >
+                <input
+                    type="text"
+                    id="cnpj"
+                    th:field="*{cnpj}"
+                    required
+                    placeholder="00.000.000/0000-00"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                />
+            </div>
+
+            <div>
+                <label
+                    for="nome"
+                    class="block text-sm font-medium text-gray-700"
+                    >Nome</label
+                >
+                <input
+                    type="text"
+                    id="nome"
+                    th:field="*{nome}"
+                    required
+                    placeholder="Nome da empresa"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                />
+            </div>
+
+            <div>
+                <label
+                    for="userId"
+                    class="block text-sm font-medium text-gray-700"
+                    >ID do Usuário</label
+                >
+                <input
+                    type="text"
+                    id="userId"
+                    th:field="*{userId}"
+                    placeholder="UUID do usuário"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                />
+            </div>
+
+            <div>
+                <label
+                    for="inicioExpediente"
+                    class="block text-sm font-medium text-gray-700"
+                    >Início do Expediente</label
+                >
+                <input
+                    type="time"
+                    id="inicioExpediente"
+                    th:field="*{inicioExpediente}"
+                    required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                />
+            </div>
+
+            <div>
+                <label
+                    for="fimExpediente"
+                    class="block text-sm font-medium text-gray-700"
+                    >Fim do Expediente</label
+                >
+                <input
+                    type="time"
+                    id="fimExpediente"
+                    th:field="*{fimExpediente}"
+                    required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                />
+            </div>
+
+            <div class="flex space-x-4">
+                <button
+                    type="submit"
+                    class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"
+                >
+                    Salvar
+                </button>
+                <a
+                    th:href="@{/empresas}"
+                    class="inline-block px-4 py-2 border border-gray-300 rounded hover:bg-gray-100"
+                >
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Lista de Agendamentos</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">Lista de Agendamentos</h1>
+
+        <a
+            href="/agendamentos/novo"
+            class="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+        >
+            Novo Agendamento
+        </a>
+
+        <table
+            class="min-w-full border border-gray-300 rounded-lg overflow-hidden"
+        >
+            <thead class="bg-gray-100">
+                <tr>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Serviço ID
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Usuário ID
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Data
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Hora Início
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    th:each="agendamento : ${agendamentos}"
+                    class="hover:bg-gray-50"
+                >
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${agendamento.servicoId}"
+                    >
+                        Serviço ID
+                    </td>
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${agendamento.userId}"
+                    >
+                        Usuário ID
+                    </td>
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${#dates.format(agendamento.data, 'dd/MM/yyyy')}"
+                    >
+                        Data
+                    </td>
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${agendamento.horaInicio}"
+                    >
+                        Hora Início
+                    </td>
+                    <td class="px-6 py-4 border-b border-gray-300 space-x-2">
+                        <a
+                            th:href="@{|/agendamentos/editar/${agendamento.servicoId}|}"
+                            class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                        >
+                            Editar
+                        </a>
+                        <a
+                            th:href="@{|/agendamentos/excluir/${agendamento.servicoId}|}"
+                            class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
+                            onclick="return confirm('Deseja realmente excluir este agendamento?');"
+                        >
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+                <tr
+                    th:if="${agendamentos == null or #lists.isEmpty(agendamentos)}"
+                >
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                        Nenhum agendamento encontrado.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

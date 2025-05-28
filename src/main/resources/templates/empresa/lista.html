@@ -1,0 +1,111 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Lista de Empresas</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">Lista de Empresas</h1>
+
+        <a
+            href="/empresas/novo"
+            class="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+        >
+            Nova Empresa
+        </a>
+
+        <table
+            class="min-w-full border border-gray-300 rounded-lg overflow-hidden"
+        >
+            <thead class="bg-gray-100">
+                <tr>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        CNPJ
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Nome
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Usuário ID
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Início Expediente
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Fim Expediente
+                    </th>
+                    <th
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+                    >
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="empresa : ${empresas}" class="hover:bg-gray-50">
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${empresa.cnpj}"
+                    >
+                        CNPJ
+                    </td>
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${empresa.nome}"
+                    >
+                        Nome
+                    </td>
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${empresa.userId}"
+                    >
+                        Usuário ID
+                    </td>
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${#temporals.format(empresa.inicioExpediente, 'HH:mm')}"
+                    >
+                        Início Expediente
+                    </td>
+                    <td
+                        class="px-6 py-4 border-b border-gray-300"
+                        th:text="${#temporals.format(empresa.fimExpediente, 'HH:mm')}"
+                    >
+                        Fim Expediente
+                    </td>
+                    <td class="px-6 py-4 border-b border-gray-300 space-x-2">
+                        <a
+                            th:href="@{|/empresas/editar/${empresa.id}|}"
+                            class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                        >
+                            Editar
+                        </a>
+                        <a
+                            th:href="@{|/empresas/excluir/${empresa.id}|}"
+                            class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
+                            onclick="return confirm('Deseja realmente excluir esta empresa?');"
+                        >
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${empresas == null or #lists.isEmpty(empresas)}">
+                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                        Nenhuma empresa encontrada.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
