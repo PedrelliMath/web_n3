@@ -11,15 +11,21 @@ import org.springframework.web.bind.annotation.*;
 import web.catolica.n3.app.dto.request.EmpresaDtoRequest;
 import web.catolica.n3.app.dto.response.EmpresaDtoResponse;
 import web.catolica.n3.app.service.EmpresaService;
+import web.catolica.n3.app.service.UsuarioService;
 
 @Controller
 @RequestMapping("/empresas")
 public class EmpresaPageController {
 
     private final EmpresaService empresaService;
+    private final UsuarioService usuarioService;
 
-    public EmpresaPageController(EmpresaService empresaService) {
+    public EmpresaPageController(
+        EmpresaService empresaService,
+        UsuarioService usuarioService
+    ) {
         this.empresaService = empresaService;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping
@@ -39,6 +45,7 @@ public class EmpresaPageController {
             LocalTime.of(17, 0) // fimExpediente padrão, ex 17:00
         );
         model.addAttribute("empresaDtoRequest", novaEmpresa);
+        model.addAttribute("usuarios", usuarioService.listarUsuarios());
         model.addAttribute("id", null);
         return "empresa/form";
     }
@@ -70,6 +77,7 @@ public class EmpresaPageController {
             empresa.fimExpediente()
         );
         model.addAttribute("empresaDtoRequest", empresaDtoRequest);
+        model.addAttribute("usuarios", usuarioService.listarUsuarios());
         model.addAttribute("id", id);
         return "empresa/form";
     }

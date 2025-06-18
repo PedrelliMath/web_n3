@@ -3,109 +3,165 @@
     <head>
         <meta charset="UTF-8" />
         <title>Lista de Empresas</title>
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold mb-6">Lista de Empresas</h1>
-
-        <a
-            href="/empresas/novo"
-            class="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-        >
-            Nova Empresa
-        </a>
-
-        <table
-            class="min-w-full border border-gray-300 rounded-lg overflow-hidden"
-        >
-            <thead class="bg-gray-100">
-                <tr>
-                    <th
-                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
+    <body class="min-h-screen bg-gray-50 text-gray-800 font-sans antialiased">
+        <!-- Cabeçalho -->
+        <header class="bg-white border-b border-gray-200 shadow-sm">
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center"
+            >
+                <div class="flex items-center space-x-6">
+                    <a
+                        href="/"
+                        class="text-lg font-bold text-indigo-600 tracking-tight"
+                        >DML</a
                     >
-                        CNPJ
-                    </th>
-                    <th
-                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
-                    >
-                        Nome
-                    </th>
-                    <th
-                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
-                    >
-                        Usuário ID
-                    </th>
-                    <th
-                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
-                    >
-                        Início Expediente
-                    </th>
-                    <th
-                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
-                    >
-                        Fim Expediente
-                    </th>
-                    <th
-                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-300"
-                    >
-                        Ações
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="empresa : ${empresas}" class="hover:bg-gray-50">
-                    <td
-                        class="px-6 py-4 border-b border-gray-300"
-                        th:text="${empresa.cnpj}"
-                    >
-                        CNPJ
-                    </td>
-                    <td
-                        class="px-6 py-4 border-b border-gray-300"
-                        th:text="${empresa.nome}"
-                    >
-                        Nome
-                    </td>
-                    <td
-                        class="px-6 py-4 border-b border-gray-300"
-                        th:text="${empresa.userId}"
-                    >
-                        Usuário ID
-                    </td>
-                    <td
-                        class="px-6 py-4 border-b border-gray-300"
-                        th:text="${#temporals.format(empresa.inicioExpediente, 'HH:mm')}"
-                    >
-                        Início Expediente
-                    </td>
-                    <td
-                        class="px-6 py-4 border-b border-gray-300"
-                        th:text="${#temporals.format(empresa.fimExpediente, 'HH:mm')}"
-                    >
-                        Fim Expediente
-                    </td>
-                    <td class="px-6 py-4 border-b border-gray-300 space-x-2">
+                    <nav class="flex space-x-4 text-sm font-medium">
                         <a
-                            th:href="@{|/empresas/editar/${empresa.id}|}"
-                            class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                            href="/usuarios"
+                            class="text-gray-600 hover:text-indigo-500"
+                            >Usuários</a
                         >
-                            Editar
-                        </a>
                         <a
-                            th:href="@{|/empresas/excluir/${empresa.id}|}"
-                            class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
-                            onclick="return confirm('Deseja realmente excluir esta empresa?');"
+                            href="/empresas"
+                            class="text-gray-600 hover:text-indigo-500"
+                            >Empresas</a
                         >
-                            Excluir
-                        </a>
-                    </td>
-                </tr>
-                <tr th:if="${empresas == null or #lists.isEmpty(empresas)}">
-                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                        Nenhuma empresa encontrada.
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <a
+                            href="/servicos"
+                            class="text-gray-600 hover:text-indigo-500"
+                            >Serviços</a
+                        >
+                        <a
+                            href="/agendamentos"
+                            class="text-gray-600 hover:text-indigo-500"
+                            >Agendamentos</a
+                        >
+                    </nav>
+                </div>
+                <div>
+                    <a
+                        href="/logout"
+                        class="text-sm text-gray-500 hover:text-red-500"
+                        >Sair</a
+                    >
+                </div>
+            </div>
+        </header>
+
+        <!-- Conteúdo principal -->
+        <main class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-semibold">Lista de Empresas</h1>
+                <a
+                    href="/empresas/novo"
+                    class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow hover:bg-indigo-700 transition"
+                >
+                    Nova Empresa
+                </a>
+            </div>
+
+            <div class="bg-white shadow rounded-md overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                                CNPJ
+                            </th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                                Nome
+                            </th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                                Usuário ID
+                            </th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                                Início
+                            </th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                                Fim
+                            </th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-100">
+                        <tr
+                            th:each="empresa : ${empresas}"
+                            class="hover:bg-gray-50"
+                        >
+                            <td
+                                class="px-4 py-2 text-sm text-gray-700"
+                                th:text="${empresa.cnpj}"
+                            >
+                                CNPJ
+                            </td>
+                            <td
+                                class="px-4 py-2 text-sm text-gray-700"
+                                th:text="${empresa.nome}"
+                            >
+                                Nome
+                            </td>
+                            <td
+                                class="px-4 py-2 text-sm text-gray-700"
+                                th:text="${empresa.userId}"
+                            >
+                                Usuário ID
+                            </td>
+                            <td
+                                class="px-4 py-2 text-sm text-gray-700"
+                                th:text="${#temporals.format(empresa.inicioExpediente, 'HH:mm')}"
+                            >
+                                Início
+                            </td>
+                            <td
+                                class="px-4 py-2 text-sm text-gray-700"
+                                th:text="${#temporals.format(empresa.fimExpediente, 'HH:mm')}"
+                            >
+                                Fim
+                            </td>
+                            <td class="px-4 py-2 text-sm space-x-2">
+                                <a
+                                    th:href="@{|/empresas/editar/${empresa.id}|}"
+                                    class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-xs"
+                                >
+                                    Editar
+                                </a>
+                                <a
+                                    th:href="@{|/empresas/excluir/${empresa.id}|}"
+                                    onclick="return confirm('Deseja realmente excluir esta empresa?');"
+                                    class="inline-block bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs"
+                                >
+                                    Excluir
+                                </a>
+                            </td>
+                        </tr>
+                        <tr
+                            th:if="${empresas == null or #lists.isEmpty(empresas)}"
+                        >
+                            <td
+                                colspan="6"
+                                class="px-4 py-4 text-center text-sm text-gray-500"
+                            >
+                                Nenhuma empresa encontrada.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </body>
 </html>
