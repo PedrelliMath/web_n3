@@ -6,9 +6,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.catolica.n3.app.dto.request.ServicoDtoRequest;
 import web.catolica.n3.app.dto.response.ServicoDtoResponse;
+import web.catolica.n3.app.service.EmpresaService;
 import web.catolica.n3.app.service.ServicoService;
 
 @Controller
@@ -16,10 +18,15 @@ import web.catolica.n3.app.service.ServicoService;
 public class ServicoPageController {
 
     private final ServicoService servicoService;
+    private final EmpresaService empresaService;
 
     @Autowired
-    public ServicoPageController(ServicoService servicoService) {
+    public ServicoPageController(
+        ServicoService servicoService,
+        EmpresaService empresaService
+    ) {
         this.servicoService = servicoService;
+        this.empresaService = empresaService;
     }
 
     @GetMapping
@@ -32,43 +39,50 @@ public class ServicoPageController {
     @GetMapping("/novo")
     public String novoServico(Model model) {
         model.addAttribute("servico", new ServicoDtoRequest("", null, null, 0));
+        model.addAttribute("empresas", empresaService.listarEmpresas());
         return "servico/form"; // templates/servico/form.html
     }
 
-    @PostMapping
-    public String salvarServico(
-        @ModelAttribute @Valid ServicoDtoRequest servico
+    @PostMapping("/salvar")
+    public String salvarNovoServico(
+        @Valid @ModelAttribute("servico") ServicoDtoRequest servicoDtoRequest,
+        BindingResult bindingResult,
+        Model model
     ) {
-        servicoService.criarServico(servico);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("empresas", empresaService.listarEmpresas());
+            model.addAttribute("id", null);
+            return "servico/form";
+        }
+        servicoService.criarServico(servicoDtoRequest);
         return "redirect:/servicos";
     }
 
-    @GetMapping("/{id}/editar")
+    @GetMapping("/editar/{id}")
     public String editarServico(@PathVariable UUID id, Model model) {
         ServicoDtoResponse servico = servicoService.buscarPorId(id);
-        model.addAttribute(
-            "servico",
-            new ServicoDtoRequest(
-                servico.nome(),
-                servico.empresaId(),
-                servico.valor(),
-                servico.duracao()
-            )
-        );
+        model.addAttribute("servico", servico);
+        model.addAttribute("empresas", empresaService.listarEmpresas());
         model.addAttribute("id", id);
         return "servico/form";
     }
 
-    @PostMapping("/{id}/editar")
+    @PostMapping("/atualizar/{id}")
     public String atualizarServico(
+        @Valid @ModelAttribute("servico") ServicoDtoRequest servicoDtoRequest,
+        BindingResult bindingResult,
         @PathVariable UUID id,
-        @ModelAttribute @Valid ServicoDtoRequest servico
+        Model model
     ) {
-        servicoService.atualizarServico(id, servico);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("id", id);
+            return "servico/form";
+        }
+        servicoService.atualizarServico(id, servicoDtoRequest);
         return "redirect:/servicos";
     }
 
-    @PostMapping("/{id}/deletar")
+    @PostMapping("/deletar/{id}")
     public String deletarServico(@PathVariable UUID id) {
         servicoService.deletarServico(id);
         return "redirect:/servicos";

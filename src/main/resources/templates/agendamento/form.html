@@ -59,46 +59,59 @@
         <main class="max-w-2xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
             <h1
                 class="text-2xl font-semibold mb-6"
-                th:text="${agendamento.servicoId} != null ? 'Editar Agendamento' : 'Novo Agendamento'"
+                th:text="${id} != null ? 'Editar Agendamento' : 'Novo Agendamento'"
             >
                 Formulário de Agendamento
             </h1>
 
             <form
-                th:action="${agendamento.servicoId} != null ? @{'/agendamentos/atualizar/' + ${agendamento.servicoId}} : @{/agendamentos/salvar}"
+                th:action="${id} != null ? @{'/agendamentos/atualizar/' + ${id}} : @{/agendamentos/salvar}"
                 method="post"
+                th:object="${agendamento}"
                 class="space-y-6 bg-white p-6 shadow rounded-md border border-gray-200"
             >
                 <div>
                     <label
                         for="servicoId"
                         class="block text-sm font-medium text-gray-700 mb-1"
-                        >ID do Serviço</label
+                        >Serviço</label
                     >
-                    <input
-                        type="text"
+                    <select
                         id="servicoId"
-                        name="servicoId"
-                        th:value="${agendamento.servicoId}"
-                        required
+                        th:field="*{servicoId}"
                         class="w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    />
+                    >
+                        <option value="" disabled selected>
+                            Selecione um Serviço
+                        </option>
+                        <option
+                            th:each="servico : ${servicos}"
+                            th:value="${servico.id}"
+                            th:text="${servico.nome}"
+                        ></option>
+                    </select>
                 </div>
 
                 <div>
                     <label
                         for="userId"
                         class="block text-sm font-medium text-gray-700 mb-1"
-                        >ID do Usuário</label
+                        >Usuario</label
                     >
-                    <input
-                        type="text"
+                    <select
                         id="userId"
-                        name="userId"
-                        th:value="${agendamento.userId}"
-                        required
+                        th:field="*{userId}"
                         class="w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    />
+                    >
+                        <option value="" disabled selected>
+                            Selecione um Usuário
+                        </option>
+                        <option
+                            th:each="usuario : ${usuarios}"
+                            th:value="${usuario.id}"
+                            th:text="${usuario.name}"
+                        ></option>
+                    </select>
                 </div>
 
                 <div>
@@ -111,7 +124,7 @@
                         type="date"
                         id="data"
                         name="data"
-                        th:value="${#dates.format(agendamento.data, 'yyyy-MM-dd')}"
+                        th:field="*{data}"
                         required
                         class="w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                     />

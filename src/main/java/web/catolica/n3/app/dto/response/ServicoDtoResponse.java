@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record ServicoDtoResponse(
     UUID id,
-    UUID empresaId,
+    EmpresaDtoResponse empresa,
     String nome,
     BigDecimal valor,
     int duracao

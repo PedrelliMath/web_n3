@@ -24,8 +24,8 @@ public class AgendamentoMapper {
     public static AgendamentoDtoResponse toDTO(AgendamentoSchema agendamento) {
         return new AgendamentoDtoResponse(
             agendamento.getId(),
-            agendamento.getServico().getId(),
-            agendamento.getUser().getId(),
+            ServicoMapper.toDTO(agendamento.getServico()),
+            UsuarioMapper.toDTO(agendamento.getUser()),
             agendamento.getData(),
             agendamento.getHoraInicio()
         );

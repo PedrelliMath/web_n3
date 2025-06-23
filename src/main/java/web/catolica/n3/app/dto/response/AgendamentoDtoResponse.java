@@ -1,13 +1,13 @@
 package web.catolica.n3.app.dto.response;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 public record AgendamentoDtoResponse(
     UUID id,
-    UUID servicoId,
-    UUID userId,
-    Date data,
+    ServicoDtoResponse servico,
+    UsuarioDtoResponse user,
+    LocalDate data,
     LocalTime horaInicio
 ) {}

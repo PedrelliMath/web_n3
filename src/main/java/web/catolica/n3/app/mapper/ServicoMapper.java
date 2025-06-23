@@ -17,7 +17,7 @@ public class ServicoMapper {
     public static ServicoDtoResponse toDTO(ServicoSchema entity) {
         return new ServicoDtoResponse(
             entity.getId(),
-            entity.getEmpresa().getId(),
+            EmpresaMapper.toDTO(entity.getEmpresa()),
             entity.getNome(),
             entity.getValor(),
             entity.getDuracao()

@@ -117,7 +117,7 @@
                             </td>
                             <td
                                 class="px-4 py-2 text-sm text-gray-700"
-                                th:text="${servico.empresaId}"
+                                th:text="${servico.empresa.nome}"
                             >
                                 Empresa
                             </td>
@@ -135,7 +135,7 @@
                             </td>
                             <td class="px-4 py-2 text-sm space-x-2">
                                 <a
-                                    th:href="@{|/servicos/${servico.id}/editar|}"
+                                    th:href="@{|/servicos/editar/${servico.id}|}"
                                     class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-xs"
                                 >
                                     Editar

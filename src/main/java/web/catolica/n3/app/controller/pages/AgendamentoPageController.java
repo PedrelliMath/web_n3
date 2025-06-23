@@ -9,16 +9,26 @@ import org.springframework.web.bind.annotation.*;
 import web.catolica.n3.app.dto.request.AgendamentoDtoRequest;
 import web.catolica.n3.app.dto.response.AgendamentoDtoResponse;
 import web.catolica.n3.app.service.AgendamentoService;
+import web.catolica.n3.app.service.ServicoService;
+import web.catolica.n3.app.service.UsuarioService;
 
 @Controller
 @RequestMapping("/agendamentos")
 public class AgendamentoPageController {
 
     private final AgendamentoService agendamentoService;
+    private final ServicoService servicoService;
+    private final UsuarioService usuarioService;
 
     @Autowired
-    public AgendamentoPageController(AgendamentoService agendamentoService) {
+    public AgendamentoPageController(
+        AgendamentoService agendamentoService,
+        ServicoService servicoService,
+        UsuarioService usuarioService
+    ) {
         this.agendamentoService = agendamentoService;
+        this.servicoService = servicoService;
+        this.usuarioService = usuarioService;
     }
 
     // Página para listar agendamentos
@@ -40,6 +50,8 @@ public class AgendamentoPageController {
             null
         );
         model.addAttribute("agendamento", agendamentoVazio);
+        model.addAttribute("servicos", servicoService.listarServicos());
+        model.addAttribute("usuarios", usuarioService.listarUsuarios());
         return "agendamento/form";
     }
 
@@ -51,12 +63,15 @@ public class AgendamentoPageController {
 
         // Preencher um DTO de request para popular o form (se precisar)
         AgendamentoDtoRequest agendamentoForm = new AgendamentoDtoRequest(
-            agendamentoResponse.servicoId(), // substitua pelos campos reais
-            agendamentoResponse.userId(),
+            agendamentoResponse.servico().id(),
+            agendamentoResponse.user().id(),
             agendamentoResponse.data(),
             agendamentoResponse.horaInicio()
         );
+
         model.addAttribute("agendamento", agendamentoForm);
+        model.addAttribute("servicos", servicoService.listarServicos());
+        model.addAttribute("usuarios", usuarioService.listarUsuarios());
         model.addAttribute("id", id);
 
         return "agendamento/form"; // templates/agendamento/form.html

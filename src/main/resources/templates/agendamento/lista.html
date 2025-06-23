@@ -69,12 +69,17 @@
                             <th
                                 class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                             >
-                                Serviço ID
+                                Empresa
                             </th>
                             <th
                                 class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                             >
-                                Usuário ID
+                                Serviço
+                            </th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                                Usuário
                             </th>
                             <th
                                 class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -100,19 +105,25 @@
                         >
                             <td
                                 class="px-4 py-2 text-sm text-gray-700"
-                                th:text="${agendamento.servicoId}"
+                                th:text="${agendamento.servico.empresa.nome}"
                             >
-                                Serviço ID
+                                Empresa
                             </td>
                             <td
                                 class="px-4 py-2 text-sm text-gray-700"
-                                th:text="${agendamento.userId}"
+                                th:text="${agendamento.servico.nome}"
                             >
-                                Usuário ID
+                                Serviço
                             </td>
                             <td
                                 class="px-4 py-2 text-sm text-gray-700"
-                                th:text="${#dates.format(agendamento.data, 'dd/MM/yyyy')}"
+                                th:text="${agendamento.user.name}"
+                            >
+                                Usuário
+                            </td>
+                            <td
+                                class="px-4 py-2 text-sm text-gray-700"
+                                th:text="${#temporals.format(agendamento.data, 'dd/MM/yyyy')}"
                             >
                                 Data
                             </td>
@@ -124,13 +135,13 @@
                             </td>
                             <td class="px-4 py-2 text-sm space-x-2">
                                 <a
-                                    th:href="@{|/agendamentos/editar/${agendamento.servicoId}|}"
+                                    th:href="@{|/agendamentos/editar/${agendamento.id}|}"
                                     class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-xs"
                                 >
                                     Editar
                                 </a>
                                 <a
-                                    th:href="@{|/agendamentos/excluir/${agendamento.servicoId}|}"
+                                    th:href="@{|/agendamentos/excluir/${agendamento.id}|}"
                                     onclick="return confirm('Deseja realmente excluir este agendamento?');"
                                     class="inline-block bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs"
                                 >

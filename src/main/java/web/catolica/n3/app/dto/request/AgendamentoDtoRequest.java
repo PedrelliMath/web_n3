@@ -2,8 +2,8 @@ package web.catolica.n3.app.dto.request;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 public record AgendamentoDtoRequest(
@@ -11,7 +11,7 @@ public record AgendamentoDtoRequest(
 
     @NotNull UUID userId,
 
-    @NotNull @Future(message = "A data deve ser futura") Date data,
+    @NotNull @Future(message = "A data deve ser futura") LocalDate data,
 
     @NotNull LocalTime horaInicio
 ) {}

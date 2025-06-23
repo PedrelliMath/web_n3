@@ -7,8 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -17,7 +17,7 @@ public class AgendamentoSchema {
     @Id
     private UUID id;
 
-    private Date data;
+    private LocalDate data;
 
     @Column(name = "hora_inicio")
     private LocalTime horaInicio;
@@ -32,7 +32,7 @@ public class AgendamentoSchema {
 
     public AgendamentoSchema() {}
 
-    public AgendamentoSchema(Date data, LocalTime horaInicio) {
+    public AgendamentoSchema(LocalDate data, LocalTime horaInicio) {
         this.data = data;
         this.horaInicio = horaInicio;
     }
@@ -68,11 +68,11 @@ public class AgendamentoSchema {
         this.usuario = usuario;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
