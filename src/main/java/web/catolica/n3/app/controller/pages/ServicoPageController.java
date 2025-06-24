@@ -61,7 +61,15 @@ public class ServicoPageController {
     @GetMapping("/editar/{id}")
     public String editarServico(@PathVariable UUID id, Model model) {
         ServicoDtoResponse servico = servicoService.buscarPorId(id);
-        model.addAttribute("servico", servico);
+        model.addAttribute(
+            "servico",
+            new ServicoDtoRequest(
+                servico.nome(),
+                servico.empresa().id(),
+                servico.valor(),
+                servico.duracao()
+            )
+        );
         model.addAttribute("empresas", empresaService.listarEmpresas());
         model.addAttribute("id", id);
         return "servico/form";
